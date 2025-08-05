@@ -1,26 +1,211 @@
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WNET Domain List</title>
-</head>
+    <style>
+        /* --- 引入一个更现代的字体 --- */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
 
+        /* --- 基础样式 --- */
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f7f9fc; /* 使用一个极浅的灰蓝色作为页面底色 */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* --- 主内容容器 --- */
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 20px;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 720px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        /* --- 标题样式 --- */
+        h1 {
+            color: #444;
+            margin-bottom: 25px; /* 增加标题和第一个区域的间距 */
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        /* --- 提示信息 (柔和风格) --- */
+        .browser-notice {
+            color: #a67c52;
+            background-color: #fff9f0;
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 12px;
+            margin: 25px 0;
+            font-size: 14px;
+        }
+
+        /* --- 链接列表网格布局 --- */
+        .link-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* --- 卡片化分区样式 --- */
+        .site-section {
+            border: 1px solid #f0f0f0;
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        /* --- 通用 legend 样式 --- */
+        .site-section legend {
+            padding: 0 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #aaa; /* 默认使用较浅的颜色 */
+            text-align: left;
+            transition: color 0.2s ease-out;
+        }
+
+        /* 为 SS新站 的 legend 增加对比度 */
+        .site-section:not(.old-site-section) legend {
+            color: #888; 
+        }
+
+        /* --- 柔和白按钮样式 --- */
+        .link-button {
+            display: block;
+            padding: 14px 15px;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            word-break: break-all;
+            position: relative;
+            transition: all 0.2s ease-out;
+            background-color: #fdfdfd;
+        }
+        
+        /* 核心改动：为 SS新站 的按钮增加对比度, 但排除高亮按钮 */
+        .site-section:not(.old-site-section) .link-button:not(.highlight) {
+            color: #666; /* 文字颜色加深 */
+            border: 1px solid #ededed; /* 边框颜色加深 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03); /* 阴影加深 */
+        }
+        .site-section:not(.old-site-section) .link-button:not(.highlight):hover {
+            color: #333;
+            transform: translateY(-2px);
+            border-color: #e0e0e0;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
+        }
+
+        .link-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition-duration: 0.1s;
+        }
+        
+        /* --- 高亮/自动匹配按钮样式 (保持独立) --- */
+        .link-button.highlight {
+            background: #2db5a5;
+            color: white; /* 确保字体颜色为白色 */
+            border: none;
+        }
+        .link-button.highlight:hover {
+            background: #28a194;
+            border: none;
+            color: white; /* 悬停时也确保是白色 */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
+        }
+
+        /* --- 停止维护的旧站样式 (保持低对比度) --- */
+        .old-site-section .link-button {
+            background-color: #f5f5f5;
+            color: #bbb;
+            box-shadow: none;
+            border: 1px solid #f5f5f5;
+        }
+        .old-site-section .link-button:hover {
+            background-color: #f0f0f0;
+            color: #999;
+            transform: none; /* 旧站按钮无浮动效果 */
+            box-shadow: none;
+        }
+        
+        /* --- 底部联系方式 --- */
+        .contact-link {
+            display: inline-block;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #aaa;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .contact-link:hover {
+            color: #555;
+        }
+
+        /* --- 响应式设计 --- */
+        @media (max-width: 600px) {
+            .link-grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 20px;
+            }
+            .site-section {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
 <body>
-    <p style="color: red; font-weight: bold; text-align:">请用Chrome或Edge浏览器访问</p>
-    <p> SS新站：</p>
-    <p><a href="https://wnet.881248.xyz" target="_blank">https://wnet.881248.xyz</a></p>
-    <p><a href="https://wnode.link" target="_blank">https://wnode.link</a></p>
-    <p><a href="https://wnet.ovh" target="_blank">https://wnet.ovh</a></p>
-    <p><a href="https://xb.wnet.icu" target="_blank">https://xb.wnet.icu</a></p>
-    <p><a href="https://wn.wnet.one" target="_blank">https://wn.wnet.one</a></p>
-    <p><a href="https://xb.400408.xyz" target="_blank">https://xb.400408.xyz</a></p>
-    <p><a href="https://xb.888555777.xyz" target="_blank">https://xb.888555777.xyz</a></p>
-    <p> SSR老站(停止维护)：<a href="https://wnet.one" target="_blank">https://wnet.one</a></p>
-    <br />
-    <a href="mailto:contact@wnet.xyz?subject=(FROM CFPAGES)">CONTACT US</a>
+
+    <div class="container">
+        <h1>WNET Domain List</h1>
+        
+        <p class="browser-notice">💡 请使用 Chrome 或 Edge 浏览器以获得最佳体验</p>
+
+        <fieldset class="site-section">
+            <legend>SS新站</legend>
+            <ul class="link-grid">
+                <li><a href="https://wnode.link" target="_blank" class="link-button">wnode.link</a></li>
+                <li><a href="https://w.881248.xyz" target="_blank" class="link-button">w.881248.xyz</a></li>
+                <li><a href="https://wnet.ovh" target="_blank" class="link-button">wnet.ovh</a></li>
+                <li><a href="https://wnet.881248.xyz" target="_blank" class="link-button">wnet.881248.xyz</a></li>
+                <li><a href="https://xb.wnet.icu" target="_blank" class="link-button">xb.wnet.icu</a></li>
+                <li><a href="https://xb.400408.xyz" target="_blank" class="link-button">xb.400408.xyz</a></li>
+                <li><a href="https://wn.wnet.one" target="_blank" class="link-button">wn.wnet.one</a></li>
+                <li><a href="https://xb.888555777.xyz" target="_blank" class="link-button">xb.888555777.xyz</a></li>
+                
+                <li style="grid-column: 1 / -1;"><a href="https://wnetapi.github.io" target="_blank" class="link-button highlight">🚀 自动匹配线路</a></li>
+            </ul>
+        </fieldset>
+
+        <fieldset class="site-section old-site-section">
+            <legend>SSR老站（停止维护）</legend>
+            <ul class="link-grid" style="grid-template-columns: 1fr;"> <li><a href="https://wnet.one" target="_blank" class="link-button">wnet.one</a></li>
+            </ul>
+        </fieldset>
+        
+        <a href="mailto:contact@wnet.xyz?subject=(FROM CFPAGES)" class="contact-link">Contact Us</a>
+    </div>
+
 </body>
-<script type="text/javascript">console.log("index.html")</script>
-<!--
-        <script type="text/javascript">window.location.href = "https://board.wnet.one";</script>
-        <p><a href="https://yumid.wnet.space" target="_blank">https://yumid.wnet.space</a></p>
--->                                                                   
 </html>
